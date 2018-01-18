@@ -1,0 +1,175 @@
+---
+title: "Store24(A)"
+author: "Roopak Krishna"
+date: "15 January 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Task 4c
+
+```{r,warning=FALSE,message=FALSE}
+library(psych)
+store <- read.csv(paste("Store24.csv",sep=""))
+summary(store) # Summary statistics of Store24(A)
+describe(store) 
+```
+
+#Task 4d
+
+Measure the mean and standard deviation of Profit.
+Measure the mean and standard deviation of MTenure.
+Measure the mean and standard deviation of CTenure.
+
+
+```{r,warning=FALSE,message=FALSE}
+meanresult <- apply(store[,3:5],2,mean)
+meanresult   # mean of Profit, MTenure, CTenure
+
+sdresult <- apply(store[,3:5],2,sd)
+sdresult                                # standard deviation of Profit, MTenure, CTenure
+```
+
+#Task 4f
+
+Print the {StoreID, Sales, Profit, MTenure, CTenure} of the top 10 most profitable stores.
+
+```{r,warning=FALSE,message=FALSE}
+store.sub <- subset(store, select=c(1:5))
+newstore <- store.sub[order(-store.sub$Profit),]
+newstore[1:10,]
+```
+
+Print the {StoreID, Sales, Profit, MTenure, CTenure} of the bottom 10 least profitable stores.
+
+```{r,warning=FALSE,message=FALSE}
+newstore <- store.sub[order(store.sub$Profit),]
+newstore[1:10,]
+```
+
+#Task 4g
+
+
+Draw a scatter plot of Profit vs. MTenure.
+
+
+```{r,warning=FALSE,message=FALSE}
+library(car)
+scatterplot(store$MTenure,store$Profit,main="Scatterplot of Profit vs MTenure",xlab="MTenure",ylab="Profit",smoother=loessLine,smooth = TRUE, span =0.5,smoother.args=list(lty=2),spread=FALSE )
+
+```
+
+#Task 4h
+
+Draw a scatter plot of Profit vs. CTenure
+
+```{r,warning=FALSE,message=FALSE}
+scatterplot(store$CTenure,store$Profit,main="Scatterplot of Profit vs CTenure",xlab="CTenure",ylab="Profit",smoother=loessLine,smooth = TRUE, span =0.5,smoother.args=list(lty=2),spread=FALSE )
+
+```
+
+#Task 4i
+
+Construct a Correlation Matrix for all the variables in the dataset. (Display the numbers up to 2 Decimal places).
+
+```{r,warning=FALSE,message=FALSE}
+round(cor(store),2)
+```
+
+#Task 4j
+
+Measure the correlation between Profit and MTenure. (Display the numbers up to 2 Decimal places)
+
+```{r,warning=FALSE,message=FALSE}
+round(cor(store$Profit,store$MTenure),2)
+```
+
+Measure the correlation between Profit and CTenure.  (Display the numbers up to 2 Decimal places)
+
+```{r,warning=FALSE,message=FALSE}
+round(cor(store$Profit,store$CTenure),2)
+```
+
+#Task 4k
+
+Construct the Corrgram based on all variables in the dataset.
+
+```{r,warning=FALSE,message=FALSE}
+library(corrgram)
+corrgram(store, main="Corrgram of Store Variables", lower.panel=panel.shade, 
+         upper.panel=panel.pie, text.panel=panel.txt)
+```
+
+#Task 4l
+
+Run a Pearson's Correlation test on the correlation between Profit and MTenure. What is the p-value?
+
+```{r,warning=FALSE,message=FALSE}
+cor.test(store$Profit, store$MTenure)
+```
+
+p-value = 8.193e-05
+
+
+Run a Pearson's Correlation test on the correlation between Profit and CTenure. What is the p-value?
+
+```{r,warning=FALSE,message=FALSE}
+cor.test(store$Profit, store$CTenure)
+```
+
+p-value = 0.02562
+
+
+#Task 3m
+
+Run a regression of Profit on {MTenure, CTenure Comp, Pop, PedCount, Res, Hours24, Visibility}.
+
+```{r,warning=FALSE,message=FALSE}
+regression.store <- lm(Profit ~ MTenure + CTenure + Comp + Pop + PedCount + Res + Hours24 + Visibility,data =store)
+summary(regression.store)
+```
+
+#Task 4n
+
+List the explanatory variable(s) whose beta-coefficients are statistically significant (p < 0.05).
+
+```{r,warning=FALSE,message=FALSE}
+summary(regression.store)$coefficients[summary(regression.store)$coefficients[,4] <=0.05,4]
+```
+
+List the explanatory variable(s) whose beta-coefficients are not statistically significant (p > 0.05).
+
+```{r,warning=FALSE,message=FALSE}
+summary(regression.store)$coefficients[summary(regression.store)$coefficients[,4] > 0.05,4]
+```
+
+#Task 4o
+
+What is expected change in the Profit at a store, if the Manager's tenure i.e. number of months of experience with Store24, increases by one month?
+
+```{r,warning=FALSE,message=FALSE}
+summary(regression.store)$coefficients["MTenure",1]
+```
+
+
+What is expected change in the Profit at a store, if the Crew's tenure i.e. number of months of experience with Store24, increases by one month?
+
+```{r,warning=FALSE,message=FALSE}
+summary(regression.store)$coefficients["CTenure",1]
+```
+
+#Task 4p
+
+The Insights drwan from this analysis is :-
+
+1. Profits of a store depends on both MTenure and CTenure but MTenure has more effect on Profits comparatively to CTenure.
+2. From corrgram, 24 hour opened store doesn't lead to much profit.
+3. From regression analysis :-
+   - MTenure, comp, Pedcount is more significant (3 star).
+   - Hours 24 is also a significant variable (2 star).
+   - CTenure, Pop, Res is also a significant variable (1 star).
+   - Visibility is not a significant variable.
+4. The multiple r-squared value is 0.6379 that means that 63.79% of the variance in the response that is explained by Predictors.
