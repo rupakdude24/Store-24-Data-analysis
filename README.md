@@ -1,8 +1,8 @@
 # Store-24-Data-analysis
 A Store 24(A) Data Analysis of Factors affecting on Profit of Store.
 The Dataset have following variables.
-\n Variable     Meaning
-#Store           Store no.
+Variable     Meaning
+Store           Store no.
 Sales           No. of Sales
 Profit          Profit in dollars
 MTenure         Store's Manager tenure
