@@ -1,4 +1,5 @@
 # Store-24-Data-analysis
+Store 24, a privately held convenience store retailer in New England has 82 stores located throughout Massachusetts, New Hampshire, Rhode Island and Connecticut.
 A Store 24(A) Data Analysis of Factors affecting on Profit of Store.
 The Dataset have following variables.
 Variable     Meaning
@@ -19,5 +20,10 @@ ServQual        Service quality of store
 
 I have done this project using R markdown language.
 Included two files :First, Code file in rmd extension and Second, HTML report of this mini project(might not show properly in HTML format).
+Decision points :- 
+Whether increasing tenure of managers and crew would have a relatively large impact on financial performance of stores.
+
 The main variable in this project is Profit and taken it as Response variable and other all other as predictor variables.
+
 This is a case study, simply showing the how other factors affect the profit of a store.
+
